@@ -191,17 +191,6 @@ def main():
             #print("-!!!- The Security Gaurd blasted himself -!!!-")
             #GAME_ON = False
 
-        # adding Explosion after the robot has been hit
-        # adding shooting down the rogue robot
-        
-        #shooting_range = []
-        #for i in list(range(5)):
-            #shooting_range.append(gaurd_position[i])
-            #if robot_position in shooting_range:
-                #print("-**- The Robot has been terminated -**-")
-                #print("-****- The Security Guard has Won the game -****-")
-                #GAME_ON = False
-
         if gaurd_position == robot_position:
             print("-**- The Robot has been terminated -**-")
             print("-****- The Security Guard has Won the game -****-")
@@ -225,3 +214,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
