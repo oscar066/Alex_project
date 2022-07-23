@@ -1,3 +1,8 @@
+# Programming Concepts Coursework
+# Random robot
+# July 2022 
+# https://www.onlinegdb.com/online_python_compiler
+
 def adjust(A):
     # A is size
     # B is third of size
@@ -14,7 +19,7 @@ def board(A, B):
     for C in range( B ):
         for D in range( B ):
             E = C * B + D
-            print ( chr( A[E] ), end=' ')
+            print ( chr( A[E] ), end = "")
         print ()
     print ()
 
@@ -33,7 +38,7 @@ def square(A, B, C):
             G = G + 3 * ( F == ( 3 * C * C + C ) )
             A[F] = G
     return A
-
+            
 def update(A, B):
     # A is array
     # B is size
@@ -138,84 +143,60 @@ def explosion(A, B, C):
     return A
 
 def main():
-    print("\n\n --- ROBOT VERSION --- \n")
 
-    # Getting input for the size of the board
-    size = int(input("Enter an integer divisible by 3 for the game board: "))
-    game_array = [46]* (size**2)
-
-    #array_length = len(game_array)
-    game_array = update(game_array,size)
-
-
-    board(game_array,size)
-    # Start position
-    # For the robot
-    robot_position = int((0.5 * size) + size - 1)
-    # For the security guard
-    gaurd_position = int((0.5 * size) * size + 1)
-
-    # initializing the positions 
-    # rogue robot
-    game_array[robot_position] = 82
-    # Security guard
-    game_array[gaurd_position] = 83
-
-    board(game_array,size)
-
-    GAME_ON = True
-    while(GAME_ON):
-        # movement for the entities
-        # Rogue Robot
-        print("Robot's turn")
-        robot_position = move(game_array,robot_position,size)
-        # Security guard
-        print("\nGaurd's turn")
-        gaurd_position = move(game_array,gaurd_position,size)
-
-        # representing the movement of the entities with their letter
-        # Rogue robot
-        game_array[robot_position] = 82
-
-        # Security guard
-        game_array[gaurd_position] = 83
-        board(game_array,size)
-
-        # caution on shooting before reaching the intersection
-
-        intersection = int((0.5 * size) * size + 1) + ((size / 3) - 1)
-        intersection_2 = int(((size / 3 * 2) * size) * size + 1) + ((size / 3) - 1)
-        
-        if (gaurd_position >= intersection and gaurd_position < intersection_2):
-            phaser(game_array,gaurd_position,size)
-            
-        #elif (gaurd_position < intersection and phaser(game_array,gaurd_position,size)):
-            #print("-!!!- The Security Gaurd blasted himself -!!!-")
-            #GAME_ON = False
-
-        if gaurd_position == robot_position:
-            shot = phaser(game_array,robot_position,size)
-            explode = explosion(game_array,robot_position,size)
-            print("\n\n-**- The Robot has been terminated -**-")
-            print("\n-****- The Security Guard has Won the game -****-\n")
-            GAME_ON = False
-            
-        # An if-else statement to ensure looping until the condition is reached
-        # Winning the game 
-        antimatter_location = int(size * (size - 2) + 1)
-        
-        if robot_position >= antimatter_location:
-            print("\n\n-****-The Robot Wins the Game-****-")
-            GAME_ON = False
-
-        elif gaurd_position >= antimatter_location:
-            print("\n\n-****-The Security gaurd Wins the Game -****-\n ")
-            GAME_ON = False
-
-        #if (robot_position > 89 and gaurd_position > 200):
-            #GAME_ON = False
-
-
-if __name__ == "__main__":
-    main()
+    # Initializes the game array
+    game_array = []
     
+    print("Let's play Random Robot")
+    # A try block to make sure that inputs are numbers
+    try:
+        #varible to hold the board size
+        size_a = int(input("\n Enter the size of your  board:\n "))
+
+        #Applying ans storing the new board size
+        adjust_a = adjust(size_a)
+        #returns the array that is used to update the board
+        update_a = update(game_array,adjust_a)
+
+        board(update_a, adjust_a)
+
+        while True:
+
+            #Toggling between Security guard abd the robot
+
+            print("Player Security Guard\n")
+            
+            guard_pos = move(update_a,adjust_a,adjust_a)
+
+            
+
+            print("Player Robot\n")
+
+            robot_pos = move(update_a,adjust_a,adjust_a)
+
+            print("Player security guard")
+
+            #storing the new game array on  array and new guard position 
+
+            array,_pos = phaser(update_a,guard_pos,adjust_a)
+
+            update_a = update(array,adjust_a)
+
+            #checks whether the robot and guard have collided
+            if(_pos == robot_pos):
+                an_array = explosion(array,robot_pos,adjust_a)
+                print("Robot Wins")
+                break
+            # if phraser is 0 then Guard wins
+            elif(_pos == 0):
+                print("Security Guard wins")
+                an_array = explosion(array,robot_pos,adjust_a)
+                break
+    except:
+        print("only integers are accepted, try a number \n")
+        main()
+
+main()
+
+
+
